@@ -34,7 +34,7 @@
             </el-form-item>
             <el-form-item>
               <el-select v-model="filter.status" placeholder="状态" style="width:100px">
-                <el-option label="正常" value="1"></el-option>
+                <el-option label="启用" value="1"></el-option>
                 <el-option label="禁用" value="0"></el-option>
               </el-select>
             </el-form-item>
@@ -64,7 +64,7 @@
                 height="50"
                 class="photo"
                 v-if="scope.row.photo!=''"
-              >
+              />
               <div class="photo" v-if="scope.row.photo==''">{{scope.row.nickname.substr(0,1)}}</div>
             </template>
           </el-table-column>
@@ -73,7 +73,7 @@
               {{ scope.row.account }} ({{ scope.row.nickname }})
               <el-tag type="success" size="mini" v-if="scope.row.level == 255">管理员</el-tag>
               <template v-if="scope.row.email">
-                <br>
+                <br />
                 邮箱：{{ scope.row.email }}
                 <i
                   v-if="scope.row.email_verification"
@@ -82,7 +82,7 @@
                 ></i>
               </template>
               <template v-if="scope.row.tel">
-                <br>
+                <br />
                 手机：{{ scope.row.tel }}
                 <i
                   class="el-icon-circle-check"
@@ -96,7 +96,7 @@
           <el-table-column prop="address" label="登陆" width="150">
             <template slot-scope="scope">
               {{ scope.row.login_time }}
-              <br>
+              <br />
               <el-tag type="success" size="mini">
                 {{
                 scope.row.login_ip
@@ -107,7 +107,7 @@
           <el-table-column prop="address" label="注册" width="150">
             <template slot-scope="scope">
               {{ scope.row.join_time }}
-              <br>
+              <br />
 
               <el-tag type="warning" size="mini">
                 {{
@@ -118,7 +118,7 @@
           </el-table-column>
           <el-table-column label="状态" width="80">
             <template slot-scope="scope">
-              <el-tag type="success" v-if="scope.row.status == 1" size="small">正常</el-tag>
+              <el-tag type="success" v-if="scope.row.status == 1" size="small">启用</el-tag>
               <el-tag type="danger" v-if="scope.row.status == 0" size="small">禁用</el-tag>
             </template>
           </el-table-column>
@@ -154,16 +154,10 @@
       </div>
     </div>
 
-    <el-dialog :title="dialog.title" :visible.sync="dialog.show" width="540px">
+    <el-dialog :title="dialog.title" :visible.sync="dialog.show" width="800px">
       <el-form :model="dialog.fields" ref="post">
-        <el-form-item v-if="dialog.fields.id!=id">
-          <el-radio-group v-model="dialog.fields.level">
-            <el-radio-button label="0">普通会员</el-radio-button>
-            <el-radio-button label="255">管理员</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-row>
-          <el-col :span="6">
+        <el-row :gutter="20" type="flex">
+          <el-col :span="4">
             <div
               class="form-photo"
               :style="{ 'background-image': 'url(' + this.dialog.fields.photo + ')' }"
@@ -188,63 +182,113 @@
               ></div>
             </div>
           </el-col>
-          <el-col :span="18">
-            <el-form-item prop="account">
-              <el-input
-                v-model="dialog.fields.account"
-                placeholder="账号（3-20个由英文字母开头的字母）"
-                maxlength="20"
-                :disabled="dialog.edit"
-                :readonly="dialog.edit"
-                clearable
-              ></el-input>
-            </el-form-item>
-            <el-form-item prop="password">
-              <el-input
-                v-if="dialog.edit"
-                v-model="dialog.fields.password"
-                placeholder="密码（不修改请留空，5-20个字符）"
-                type="password"
-                maxlength="20"
-                clearable
-              ></el-input>
-              <el-input
-                v-if="!dialog.edit"
-                v-model="dialog.fields.password"
-                placeholder="密码（5-20个字符）"
-                type="password"
-                maxlength="20"
-                clearable
-              ></el-input>
-            </el-form-item>
+          <el-col :span="20">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item prop="account">
+                  <el-input
+                    v-model="dialog.fields.account"
+                    placeholder="账号（3-20个由英文字母开头的字母）"
+                    maxlength="20"
+                    :disabled="dialog.edit"
+                    :readonly="dialog.edit"
+                    clearable
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item prop="password">
+                  <el-input
+                    v-if="!dialog.edit"
+                    v-model="dialog.fields.password"
+                    placeholder="密码（5-20个字符）"
+                    type="password"
+                    maxlength="20"
+                    clearable
+                  ></el-input>
+                  <el-input
+                    v-if="dialog.edit"
+                    v-model="dialog.fields.password"
+                    placeholder="密码（不修改请留空，5-20个字符）"
+                    type="password"
+                    maxlength="20"
+                    clearable
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="8">
+                <el-form-item prop="nickname">
+                  <el-input
+                    v-model="dialog.fields.nickname"
+                    placeholder="昵称（3-10个字）"
+                    maxlength="10"
+                    clearable
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item prop="email">
+                  <el-input
+                    v-model="dialog.fields.email"
+                    placeholder="邮箱地址"
+                    maxlength="100"
+                    clearable
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item prop="tel">
+                  <el-input v-model="dialog.fields.tel" placeholder="手机号码" maxlength="20" clearable></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-col>
         </el-row>
-        <el-form-item prop="nickname">
-          <el-input
-            v-model="dialog.fields.nickname"
-            placeholder="昵称（3-10个字）"
-            maxlength="10"
-            clearable
-          ></el-input>
+        <el-form-item prop="permission" v-if="!dialog.edit && dialog.fields.admin">
+          <span
+            class="permission"
+            :class="{'active':permission.selected}"
+            v-for="permission in dialog.permissions"
+            :key="permission.key"
+            @click="selectedPermission(permission)"
+          >{{permission.name}}</span>
         </el-form-item>
-        <el-row :gutter="10">
-          <el-col :span="12">
-            <el-form-item prop="email">
-              <el-input v-model="dialog.fields.email" placeholder="邮箱地址" maxlength="100" clearable></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item prop="tel">
-              <el-input v-model="dialog.fields.tel" placeholder="手机号码" maxlength="20" clearable></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+
+        <el-form-item
+          prop="permission"
+          v-if="dialog.edit && dialog.fields.id!=id &&dialog.fields.admin"
+        >
+          <span
+            class="permission"
+            :class="{'active':permission.selected}"
+            v-for="permission in dialog.permissions"
+            :key="permission.key"
+            @click="selectedPermission(permission)"
+          >{{permission.name}}</span>
+        </el-form-item>
       </el-form>
       <el-row>
         <el-col :span="14" style="padding-top:10px;text-align:left">
-          <el-checkbox label="手机验证" v-model="dialog.fields.tel_verification" name="best"></el-checkbox>
-          <el-checkbox label="邮件验证" v-model="dialog.fields.email_verification" name="best"></el-checkbox>
-          <el-checkbox label="正常" v-model="dialog.fields.status" name="status"></el-checkbox>
+          <el-checkbox label="启用" v-model="dialog.fields.status" name="status"></el-checkbox>
+          <el-checkbox
+            label="手机验证"
+            v-model="dialog.fields.tel_verification"
+            name="tel_verification"
+          ></el-checkbox>
+          <el-checkbox
+            label="邮件验证"
+            v-model="dialog.fields.email_verification"
+            name="email_verification"
+          ></el-checkbox>
+
+          <el-checkbox
+            v-if="dialog.fields.id!=id"
+            label="管理员"
+            v-model="dialog.fields.admin"
+            name="level"
+          ></el-checkbox>
         </el-col>
 
         <el-col :span="10" style="text-align:right">
@@ -257,6 +301,8 @@
 </template>
 
 <script>
+import permissions from "../permission";
+
 import qs from "qs";
 export default {
   name: "user",
@@ -334,6 +380,7 @@ export default {
         title: "新增",
         show: false,
         edit: false,
+        permissions,
         fields: {
           photo: "",
           photo_id: "",
@@ -432,6 +479,7 @@ export default {
         tel_verification: false,
         status: true
       };
+      this.dialog.permissions.forEach(v => (v.selected = true));
     },
     editData(item) {
       item.status = item.status == 1;
@@ -439,6 +487,15 @@ export default {
       this.dialog.edit = true;
       this.dialog.title = "编辑会员";
       this.dialog.fields = item;
+      if (item.permission == "super") {
+        this.dialog.permissions.forEach(v => (v.selected = true));
+        return;
+      }
+      this.dialog.permissions.forEach(
+        v =>
+          (v.selected =
+            item.permission && item.permission.split(",").includes(v.key))
+      );
     },
     async deleteData(id) {
       this.$confirm("确认要删除吗").then(async () => {
@@ -493,6 +550,7 @@ export default {
           data.result.data.forEach(v => {
             v.tel_verification = v.tel_verification == 1;
             v.email_verification = v.email_verification == 1;
+            v.admin = v.level == 255;
             v.join_time = new Date(v.join_time * 1000).format("yyyy/mm/dd h:i");
             v.login_time = new Date(v.login_time * 1000).format(
               "yyyy/mm/dd h:i"
@@ -530,8 +588,18 @@ export default {
       let userTemp = JSON.parse(JSON.stringify(this.dialog.fields));
       userTemp.email_verification = userTemp.email_verification ? 1 : 0;
       userTemp.tel_verification = userTemp.tel_verification ? 1 : 0;
+      userTemp.level = userTemp.admin ? 255 : 0;
       userTemp.status = userTemp.status ? 1 : 0;
-
+      if (
+        this.dialog.permissions.filter(v => v.selected == false).length == 0
+      ) {
+        userTemp.permission = "super";
+      } else {
+        userTemp.permission = this.dialog.permissions
+          .filter(v => v.selected)
+          .map(v => v.key)
+          .join(",");
+      }
       let params = {
         token: localStorage.token,
         class: "user",
@@ -553,6 +621,15 @@ export default {
       } catch (e) {
         this.$message.error("网络异常");
       }
+    },
+    selectedPermission(p) {
+      if (p.selected) {
+        p.selected = false;
+      } else {
+        p.selected = true;
+      }
+
+      this.$forceUpdate();
     }
   }
 };
@@ -560,6 +637,18 @@ export default {
 
 <style scoped lang="less">
 @import "../styles/config.less";
+.permission {
+  margin: 2px;
+  border-radius: 30px;
+  padding: 5px 20px;
+  cursor: pointer;
+  border: 1px solid @primary;
+  color: @primary;
+  &.active {
+    background: @primary;
+    color: #fff;
+  }
+}
 .photo {
   display: inline-block;
   border-radius: 4px;

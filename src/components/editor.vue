@@ -44,6 +44,10 @@ export default {
       type: Boolean,
       default: false
     },
+    height: {
+      type: Number,
+      default: 360
+    },
     plugins: {
       type: [String, Array],
       default:
@@ -67,7 +71,7 @@ export default {
         language_url: "tinymce/langs/zh_CN.js",
         language: "zh_CN",
         skin_url: "tinymce/skins/lightgray",
-        height: 360,
+        height: this.height,
         plugins: this.plugins,
         toolbar1:
           " formatselect fontsizeselect link table image media pastetext code codesample fullscreen print charmap preview autolink colorpicker",

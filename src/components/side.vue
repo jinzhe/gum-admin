@@ -20,29 +20,16 @@
           <i class="icon-monitor"></i>
           <span slot="title">管理首页</span>
         </el-menu-item>
-
-        <el-menu-item :class="{ active: active == 'post' }" index="post">
-          <i class="icon-paper"></i>
-          <span slot="title">文章管理</span>
+        <el-menu-item
+          v-for="permission in permissions"
+          :key="permission.key"
+          :class="{ active: active == permission.key }"
+          :index="permission.key"
+        >
+          <i :class="[permission.icon]"></i>
+          <span slot="title">{{permission.name}}</span>
         </el-menu-item>
 
-        <el-menu-item :class="{ active: active == 'tag' }" index="tag">
-          <i class="icon-tag"></i>
-          <span slot="title">标签管理</span>
-        </el-menu-item>
-
-        <el-menu-item :class="{ active: active == 'link' }" index="link">
-          <i class="icon-link"></i>
-          <span slot="title">链接管理</span>
-        </el-menu-item>
-        <el-menu-item :class="{ active: active == 'user' }" index="user">
-          <i class="icon-head"></i>
-          <span slot="title">会员管理</span>
-        </el-menu-item>
-        <el-menu-item :class="{ active: active == 'backup' }" index="backup">
-          <i class="icon-server"></i>
-          <span slot="title">数据备份/还原</span>
-        </el-menu-item>
         <el-menu-item :class="{ active: active == 'logout' }" index="logout">
           <i class="icon-outbox"></i>
           <span slot="title">退出登陆</span>
@@ -78,11 +65,17 @@
 </template>
 
 <script>
+import permissions from "../permission";
 import qs from "qs";
 export default {
   name: "side",
   data() {
+    let permission = atob(window.localStorage.permission);
     return {
+      permissions:
+        permission != "super"
+          ? permissions.filter(v => permission.includes(v.key))
+          : permissions,
       active: "",
       info: false,
       account: window.localStorage.account,

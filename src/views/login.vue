@@ -100,7 +100,7 @@ export default {
           window.localStorage.account = data.result.account;
           window.localStorage.nickname = data.result.nickname;
           window.localStorage.photo = data.result.photo;
-
+          window.localStorage.permission = btoa(data.result.permission);
           this.loading = false;
           this.$message.success("登陆成功");
           this.$router.push({
@@ -111,9 +111,11 @@ export default {
           this.$message.error("登陆失败");
         } else {
           this.$message.error(data.code);
+          this.loading = false;
         }
       } catch (e) {
-        this.$message.error("网络异常");
+        this.$message.error("服务器无法链接");
+        this.loading = false;
       }
     }
   }

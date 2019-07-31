@@ -51,7 +51,9 @@
             </template>
           </el-table-column>
           <el-table-column label="网址">
-            <template slot-scope="scope">{{scope.row.url}}</template>
+            <template slot-scope="scope">
+              <el-link type="success" target="_blank" :href="scope.row.url">{{scope.row.url}}</el-link>
+            </template>
           </el-table-column>
           <el-table-column label="标签" width="100">
             <template slot-scope="scope">
@@ -97,7 +99,7 @@
 
       <div class="important warn">
         <strong>使用帮助</strong>
-        <br>链接标签是用于二次开发模板的时候用的，可以做轮换图片模块等。
+        <br />链接标签是用于二次开发模板的时候用的，可以做轮换图片模块等。
       </div>
     </div>
 
